@@ -1,0 +1,19 @@
+{
+    "name": "jc/sync-env",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lesia",
+            "email": "oberest@justcoded.co"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JustCoded\\SyncEnv\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.4",
+        "vlucas/phpdotenv": "^2.5"
+    }
+}
