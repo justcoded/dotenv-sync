@@ -20,14 +20,14 @@ class EnvChecker
 	 *
 	 * @var string
 	 */
-	protected $envFileName;
+	protected $compare;
 
 	/**
 	 * Env Example File Name
 	 *
 	 * @var string
 	 */
-	protected $envExampleFileName;
+	protected $compareWith;
 
 	/**
 	 * Content
@@ -36,41 +36,39 @@ class EnvChecker
 	 */
 	protected $keys = [];
 
-	/**
-	 * Reverse
-	 *
-	 * @var bool
-	 */
-	protected $reverse;
-
 
 	/**
 	 * EnvChecker constructor.
 	 *
-	 * @param bool $reverse
 	 * @param string $env
 	 * @param string $envExample
 	 */
-	public function __construct($reverse = false, $env = EnvChecker::ENV, $envExample = EnvChecker::ENV_EXAMPLE)
+	public function __construct($env = self::ENV, $envExample = self::ENV_EXAMPLE)
 	{
-		$this->reverse = $reverse;
-		$this->envFileName = $env;
-		$this->envExampleFileName = $envExample;
+		$this->compare = $env;
+		$this->compareWith = $envExample;
 	}
 
 
 	/**
 	 * Check
 	 *
-	 * @param bool $reverse
-	 * @param null $source
-	 * @param null $destination
+	 * @throws Exception
+	 */
+	public static function check()
+	{
+		echo (new static)->performCheck();
+	}
+
+
+	/**
+	 * Check
 	 *
 	 * @throws Exception
 	 */
-	public static function check($reverse = false, $source = null, $destination = null)
+	public static function checkReverse()
 	{
-		echo (new static($reverse, $source, $destination))->performCheck();
+		echo (new static(self::ENV_EXAMPLE, self::ENV))->performCheck();
 	}
 
 
@@ -83,17 +81,13 @@ class EnvChecker
 	{
 		$this->ensureFilesExist();
 
-		foreach ([$this->envFileName, $this->envExampleFileName] as $file) {
+		foreach ([$this->compare, $this->compareWith] as $file) {
 			$this->parseKeys($file);
 		}
 
-		$diffKeys = array_diff($this->keys[static::ENV_EXAMPLE], $this->keys[static::ENV]);
+		$missingKeys = array_diff($this->keys[$this->compare], $this->keys[$this->compareWith]);
 
-
-		return array_filter($this->keys[static::ENV], function ($key) use ($diffKeys) {
-			return in_array($key, $diffKeys);
-		});
-
+		return $this->prepareOutput($missingKeys);
 	}
 
 
@@ -104,7 +98,7 @@ class EnvChecker
 	 */
 	protected function ensureFilesExist()
 	{
-		foreach ([$this->envFileName, $this->envExampleFileName] as $file) {
+		foreach ([$this->compare, $this->compareWith] as $file) {
 			if (! file_exists($this->getRootPath($file))) {
 				throw new Exception("File {$this->getRootPath($file)} does not exists");
 			}
@@ -135,8 +129,31 @@ class EnvChecker
 	protected function getRootPath($path = null)
 	{
 		// TODO: Replace with real vendor based path
-		$rootPath = realpath(__DIR__. '/../../test_admin1');
+		$rootPath = realpath(__DIR__ . '/../../test_admin1');
 
 		return $path ? realpath($rootPath . DIRECTORY_SEPARATOR . $path) : $rootPath;
+	}
+
+
+	/**
+	 * Prepare Output
+	 *
+	 * @param $missingKeys
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
+	protected function prepareOutput($missingKeys)
+	{
+		if (empty($missingKeys)) {
+			return PHP_EOL . "You file {$this->compareWith} is already in sync with {$this->compare}" . PHP_EOL;
+		}
+
+		$message = "The following variables are not present in your {$this->compareWith} file: " . PHP_EOL;
+		foreach ($missingKeys as $diffKey) {
+			$message .= ' - ' . $diffKey . PHP_EOL;
+		}
+
+		throw new Exception($message);
 	}
 }
