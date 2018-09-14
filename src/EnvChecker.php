@@ -128,8 +128,7 @@ class EnvChecker
 	 */
 	protected function getRootPath($path = null)
 	{
-		// TODO: Replace with real vendor based path
-		$rootPath = realpath(__DIR__ . '/../../test_admin1');
+		$rootPath = realpath(__DIR__ . '/../../');
 
 		return $path ? realpath($rootPath . DIRECTORY_SEPARATOR . $path) : $rootPath;
 	}
