@@ -1,12 +1,6 @@
 {
-    "name": "jc/sync-env",
+    "name": "justcoded/sync-env",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Lesia",
-            "email": "oberest@justcoded.co"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "JustCoded\\SyncEnv\\": "src"
