@@ -128,7 +128,7 @@ class EnvChecker
 	 */
 	protected function getRootPath($path = null)
 	{
-		$rootPath = __DIR__ . '/../../../../../';
+		$rootPath = __DIR__ . '/../../../../';
 
 		var_dump($path ? $rootPath . $path : $rootPath);
 
