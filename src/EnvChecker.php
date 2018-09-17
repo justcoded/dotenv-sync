@@ -130,9 +130,9 @@ class EnvChecker
 	{
 		$rootPath = __DIR__ . '/../../';
 
-		var_dump($path ? $rootPath . DIRECTORY_SEPARATOR . $path : $rootPath);
+		var_dump($path ? $rootPath . $path : $rootPath);
 
-		return $path ? realpath($rootPath . DIRECTORY_SEPARATOR . $path) : $rootPath;
+		return $path ? realpath($rootPath . $path) : $rootPath;
 	}
 
 
