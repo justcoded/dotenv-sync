@@ -1,4 +1,7 @@
 #!/usr/bin/php
+<?php
 
 require('vendor/autoload.php');
-\JustCoded\SyncEnv\EnvChecker::check();
+\JustCoded\DotenvSync\DotenvSync::check();
+
+?>
