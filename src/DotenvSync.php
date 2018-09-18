@@ -1,6 +1,6 @@
 <?php
 
-namespace JustCoded\SyncEnv;
+namespace JustCoded\DotenvSync;
 
 use Dotenv\Dotenv;
 use Exception;
@@ -10,7 +10,7 @@ use Exception;
  *
  * @package JustCoded\SyncEnv
  */
-class EnvChecker
+class DotenvSync
 {
 	const ENV = '.env';
 	const ENV_EXAMPLE = '.env.example';
