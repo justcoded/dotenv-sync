@@ -79,6 +79,8 @@ class DotenvSync
 
 		$this->diffKeys[$this->src] = array_diff($this->keys[$this->src], $this->keys[$this->dest]);
 		$this->diffKeys[$this->dest] = array_diff($this->keys[$this->dest], $this->keys[$this->src]);
+
+		return $this;
 	}
 
 
@@ -153,7 +155,7 @@ class DotenvSync
 	 */
 	protected function prepareOutput($file, $missedKeys)
 	{
-		if (empty($missingKeys)) {
+		if (empty($missedKeys)) {
 			return PHP_EOL . "You file {$file} has no missed variables" . PHP_EOL;
 		}
 
