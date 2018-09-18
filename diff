@@ -1,0 +1,4 @@
+#!/usr/bin/php
+
+require('vendor/autoload.php');
+\JustCoded\SyncEnv\EnvChecker::check();
