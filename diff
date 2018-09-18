@@ -3,4 +3,19 @@
 
 require('vendor/autoload.php');
 
-\JustCoded\DotenvSync\DotenvSync::check();
+use \JustCoded\DotenvSync\DotenvSync;
+
+$argv = $_SERVER['argv'];
+
+switch(count($argv))
+{
+	case 1:
+		$dotenvSync = new DotenvSync();
+		break;
+	case 3:
+		$dotenvSync = new DotenvSync($argv[1], $argv[2]);
+		break;
+}
+
+$dotenvSync->diff();
+return $dotenvSync->output();

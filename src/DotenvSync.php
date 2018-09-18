@@ -20,14 +20,14 @@ class DotenvSync
 	 *
 	 * @var string
 	 */
-	protected $compare;
+	protected $src;
 
 	/**
 	 * Env Example File Name
 	 *
 	 * @var string
 	 */
-	protected $compareWith;
+	protected $dest;
 
 	/**
 	 * Content
@@ -36,39 +36,31 @@ class DotenvSync
 	 */
 	protected $keys = [];
 
+	/**
+	 * Content
+	 *
+	 * @var array
+	 */
+	protected $diffKeys = [];
 
 	/**
-	 * EnvChecker constructor.
+	 * Is Success
+	 *
+	 * @var boolean
+	 */
+	protected $isSuccess;
+
+
+	/**
+	 * DotenvSync constructor.
 	 *
 	 * @param string $env
 	 * @param string $envExample
 	 */
 	public function __construct($env = self::ENV, $envExample = self::ENV_EXAMPLE)
 	{
-		$this->compare = $env;
-		$this->compareWith = $envExample;
-	}
-
-
-	/**
-	 * Check
-	 *
-	 * @throws Exception
-	 */
-	public static function check()
-	{
-		echo (new static)->performCheck();
-	}
-
-
-	/**
-	 * Check
-	 *
-	 * @throws Exception
-	 */
-	public static function checkReverse()
-	{
-		echo (new static(self::ENV_EXAMPLE, self::ENV))->performCheck();
+		$this->src = $env;
+		$this->dest = $envExample;
 	}
 
 
@@ -77,17 +69,16 @@ class DotenvSync
 	 *
 	 * @throws Exception
 	 */
-	protected function performCheck()
+	public function diff()
 	{
 		$this->ensureFilesExist();
 
-		foreach ([$this->compare, $this->compareWith] as $file) {
+		foreach ([$this->src, $this->dest] as $file) {
 			$this->parseKeys($file);
 		}
 
-		$missingKeys = array_diff($this->keys[$this->compare], $this->keys[$this->compareWith]);
-
-		return $this->prepareOutput($missingKeys);
+		$this->diffKeys[$this->src] = array_diff($this->keys[$this->src], $this->keys[$this->dest]);
+		$this->diffKeys[$this->dest] = array_diff($this->keys[$this->dest], $this->keys[$this->src]);
 	}
 
 
@@ -98,7 +89,7 @@ class DotenvSync
 	 */
 	protected function ensureFilesExist()
 	{
-		foreach ([$this->compare, $this->compareWith] as $file) {
+		foreach ([$this->src, $this->dest] as $file) {
 			if (! file_exists($this->getRootPath($file))) {
 				throw new Exception("File {$this->getRootPath($file)} does not exists");
 			}
@@ -135,24 +126,44 @@ class DotenvSync
 
 
 	/**
-	 * Prepare Output
+	 * Output
 	 *
-	 * @param $missingKeys
-	 *
-	 * @return string
 	 * @throws Exception
 	 */
-	protected function prepareOutput($missingKeys)
+	public function output()
 	{
-		if (empty($missingKeys)) {
-			return PHP_EOL . "You file {$this->compareWith} is already in sync with {$this->compare}" . PHP_EOL;
+		$output = '';
+		foreach ($this->diffKeys as $key => $diffKeys) {
+			$output .= $this->prepareOutput($key, $diffKeys);
 		}
 
-		$message = "The following variables are not present in your {$this->compareWith} file: " . PHP_EOL;
-		foreach ($missingKeys as $diffKey) {
+		echo $output;
+
+		return $this->isSuccess;
+	}
+
+
+	/**
+	 * Prepare Output
+	 *
+	 * @param string $file
+	 * @param array $missedKeys
+	 *
+	 * @return string
+	 */
+	protected function prepareOutput($file, $missedKeys)
+	{
+		if (empty($missingKeys)) {
+			return PHP_EOL . "You file {$file} has no missed variables" . PHP_EOL;
+		}
+
+		$this->isSuccess &= false;
+
+		$message = "The following variables are not present in your {$file} file: " . PHP_EOL;
+		foreach ($missedKeys as $diffKey) {
 			$message .= ' - ' . $diffKey . PHP_EOL;
 		}
 
-		throw new Exception($message);
+		return $message;
 	}
 }
