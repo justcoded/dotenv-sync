@@ -2,6 +2,5 @@
 <?php
 
 require('vendor/autoload.php');
-\JustCoded\DotenvSync\DotenvSync::check();
 
-?>
+\JustCoded\DotenvSync\DotenvSync::check();
