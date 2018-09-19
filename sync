@@ -9,7 +9,7 @@ $argv = $_SERVER['argv'];
 
 switch(count($argv))
 {
-	case 1:
+	case 0 || 1:
 		$dotenvSync = new DotenvSync();
 		break;
 	case 3:
