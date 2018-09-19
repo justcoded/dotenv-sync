@@ -57,6 +57,13 @@ class DotenvSync
 	 */
 	protected $values;
 
+	/**
+	 * Output
+	 *
+	 * @var string
+	 */
+	protected $output;
+
 
 	/**
 	 * DotenvSync constructor.
@@ -191,12 +198,11 @@ class DotenvSync
 	 */
 	public function output()
 	{
-		$output = '';
 		foreach ($this->diffKeys as $key => $diffKeys) {
-			$output .= $this->prepareOutput($key, $diffKeys);
+			$this->prepareOutput($key, $diffKeys);
 		}
 
-		return $output;
+		return $this->output;
 	}
 
 
@@ -211,7 +217,9 @@ class DotenvSync
 	protected function prepareOutput($file, $missedKeys)
 	{
 		if (empty($missedKeys)) {
-			return "You file {$file} has no missed variables" . PHP_EOL;
+			$this->output .= "You file {$file} has no missed variables" . PHP_EOL;
+
+			return;
 		}
 
 		$this->isSuccess &= false;
@@ -221,7 +229,7 @@ class DotenvSync
 			$message .= ' - ' . $diffKey . PHP_EOL;
 		}
 
-		return $message;
+		$this->output .= $message;
 	}
 
 
