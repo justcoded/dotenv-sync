@@ -3,21 +3,21 @@
 
 require('vendor/autoload.php');
 
-use \JustCoded\DotenvSync\DotenvSync;
+use \JustCoded\DotenvSync\DotenvDiff;
 
 $argv = $_SERVER['argv'];
 
 switch(count($argv))
 {
 	case 1:
-		$dotenvSync = new DotenvSync();
+		$dotenvSync = new DotenvDiff();
 		break;
 	case 3:
-		$dotenvSync = new DotenvSync($argv[1], $argv[2]);
+		$dotenvSync = new DotenvDiff($argv[1], $argv[2]);
 		break;
 }
 
-echo $dotenvSync->diff()->output();
+echo $dotenvDiff->diff()->output();
 
 exit($dotenvSync->isSuccess() ? 0 : 1);
 
