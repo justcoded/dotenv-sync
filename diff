@@ -17,7 +17,7 @@ switch(count($argv))
 		break;
 }
 
-$dotenvSync->diff()->output();
+echo $dotenvSync->diff()->output();
 
 exit($dotenvSync->exitCode());
 
