@@ -42,6 +42,8 @@ class DotenvSync extends DotenvDiff
 		if (! empty($this->diffKeys[$this->slave])) {
 			$this->append($this->slave, false);
 		}
+
+		return $this;
 	}
 
 
@@ -62,6 +64,8 @@ class DotenvSync extends DotenvDiff
 			$prefix = PHP_EOL;
 		}
 
+		$this->missedValues[$file] = [];
+
 		foreach ($this->diffKeys[$file] as $missedKey) {
 			$value = '';
 			if ($withValues) {
@@ -69,6 +73,7 @@ class DotenvSync extends DotenvDiff
 			}
 
 			if (! file_put_contents($resource, $prefix . $missedKey . '=' . $value, FILE_APPEND)) {
+				$this->isSuccess &= false;
 				$this->missedValues[$file][] = $missedKey;
 			}
 		}
@@ -122,9 +127,10 @@ class DotenvSync extends DotenvDiff
 	 */
 	protected function prepareOutput($file, $missedKeys)
 	{
-		if (empty($this->missedValues[$file])) {
-			$dest = $src = $file == $this->master ? $this->slave : $this->master;
-			$this->output .= "You file {$file} is already in sync with {$dest}" . PHP_EOL;
+		parent::prepareOutput($file, $missedKeys);
+
+		if (!empty($missedKeys) && empty($this->missedValues[$file])) {
+			$this->output .= "All the missed variables were added to {$file} file" . PHP_EOL;
 
 			return;
 		}

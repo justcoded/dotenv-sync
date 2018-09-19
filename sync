@@ -17,7 +17,7 @@ switch(count($argv))
 		break;
 }
 
-echo $dotenvSync->sync();
+echo $dotenvSync->sync()->output();
 
 exit($dotenvSync->isSuccess() ? 0 : 1);
 
