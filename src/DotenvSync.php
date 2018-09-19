@@ -48,7 +48,7 @@ class DotenvSync
 	 *
 	 * @var boolean
 	 */
-	protected $isSuccess;
+	protected $isSuccess = true;
 
 
 	/**
