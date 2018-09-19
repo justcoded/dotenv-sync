@@ -139,9 +139,7 @@ class DotenvSync
 			$output .= $this->prepareOutput($key, $diffKeys);
 		}
 
-		echo $output;
-
-		return $this->isSuccess;
+		return $output;
 	}
 
 
@@ -167,5 +165,16 @@ class DotenvSync
 		}
 
 		return $message;
+	}
+
+
+	/**
+	 * Exit Code
+	 *
+	 * @return bool
+	 */
+	public function exitCode()
+	{
+		return ! $this->isSuccess;
 	}
 }
