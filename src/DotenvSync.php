@@ -173,8 +173,8 @@ class DotenvSync
 	 *
 	 * @return bool
 	 */
-	public function exitCode()
+	public function isSuccess()
 	{
-		return ! $this->isSuccess;
+		return $this->isSuccess;
 	}
 }

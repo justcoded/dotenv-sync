@@ -19,5 +19,5 @@ switch(count($argv))
 
 echo $dotenvSync->diff()->output();
 
-exit($dotenvSync->exitCode());
+exit($dotenvSync->isSuccess() ? 0 : 1);
 
