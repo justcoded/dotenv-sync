@@ -169,8 +169,6 @@ class DotenvDiff
 			return;
 		}
 
-		$this->isSuccess &= false;
-
 		$message = "The following variables are not present in your {$file} file: " . PHP_EOL;
 		foreach ($missedKeys as $diffKey) {
 			$message .= ' - ' . $diffKey . PHP_EOL;
