@@ -9,5 +9,9 @@
     "require": {
         "php": ">=5.4",
         "vlucas/phpdotenv": "^2.5"
-    }
+    },
+    "bin": [
+        "sync",
+        "diff"
+    ]
 }
