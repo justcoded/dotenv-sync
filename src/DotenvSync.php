@@ -20,14 +20,14 @@ class DotenvSync
 	 *
 	 * @var string
 	 */
-	protected $src;
+	protected $master;
 
 	/**
 	 * Env Example File Name
 	 *
 	 * @var string
 	 */
-	protected $dest;
+	protected $slave;
 
 	/**
 	 * Content
@@ -50,6 +50,13 @@ class DotenvSync
 	 */
 	protected $isSuccess = true;
 
+	/**
+	 * Values
+	 *
+	 * @var array
+	 */
+	protected $values;
+
 
 	/**
 	 * DotenvSync constructor.
@@ -59,8 +66,8 @@ class DotenvSync
 	 */
 	public function __construct($env = self::ENV, $envExample = self::ENV_EXAMPLE)
 	{
-		$this->src = $env;
-		$this->dest = $envExample;
+		$this->master = $env;
+		$this->slave = $envExample;
 	}
 
 
@@ -73,14 +80,61 @@ class DotenvSync
 	{
 		$this->ensureFilesExist();
 
-		foreach ([$this->src, $this->dest] as $file) {
-			$this->parseKeys($file);
+		foreach ([$this->master, $this->slave] as $file) {
+			$this->parseDotenv($file);
 		}
 
-		$this->diffKeys[$this->src] = array_diff($this->keys[$this->src], $this->keys[$this->dest]);
-		$this->diffKeys[$this->dest] = array_diff($this->keys[$this->dest], $this->keys[$this->src]);
+		$this->diffKeys[$this->slave] = array_diff($this->keys[$this->master], $this->keys[$this->slave]);
+		$this->diffKeys[$this->master] = array_diff($this->keys[$this->slave], $this->keys[$this->master]);
 
 		return $this;
+	}
+
+
+	/**
+	 * Perform Check
+	 *
+	 * @throws Exception
+	 */
+	public function sync()
+	{
+		$this->diff();
+
+		if (! empty($this->diffKeys[$this->master])) {
+			$this->append($this->master, true);
+		}
+
+		if (! empty($this->diffKeys[$this->slave])) {
+			$this->append($this->slave, false);
+		}
+	}
+
+
+	/**
+	 * Append
+	 *
+	 * @param string $file
+	 * @param bool $withValues
+	 */
+	protected function append($file, $withValues)
+	{
+		$resource = $this->getRootPath($file);
+
+		$lastChar = substr(file_get_contents($resource), -1);
+		$prefix = "";
+
+		if ($lastChar != "\n" && $lastChar != "\r" && strlen($lastChar) == 1) {
+			$prefix = PHP_EOL;
+		}
+
+		foreach ($this->diffKeys[$file] as $missedKey) {
+			$value = '';
+			if ($withValues) {
+				$value = $this->getValue($file, $missedKey);
+			}
+
+			file_put_contents($resource, $prefix . $missedKey . '=' . $value, FILE_APPEND);
+		}
 	}
 
 
@@ -91,7 +145,7 @@ class DotenvSync
 	 */
 	protected function ensureFilesExist()
 	{
-		foreach ([$this->src, $this->dest] as $file) {
+		foreach ([$this->master, $this->slave] as $file) {
 			if (! file_exists($this->getRootPath($file))) {
 				throw new Exception("File {$this->getRootPath($file)} does not exists");
 			}
@@ -104,11 +158,14 @@ class DotenvSync
 	 *
 	 * @param $file
 	 */
-	protected function parseKeys($file)
+	protected function parseDotenv($file)
 	{
 		$dotenv = new Dotenv($this->getRootPath(), $file);
 		$dotenv->load();
 		$this->keys[$file] = $dotenv->getEnvironmentVariableNames();
+		foreach ($this->keys[$file] as $key) {
+			$this->values[$file][$key] = getenv($key);
+		}
 	}
 
 
@@ -176,5 +233,27 @@ class DotenvSync
 	public function isSuccess()
 	{
 		return $this->isSuccess;
+	}
+
+
+	/**
+	 * Get Value
+	 *
+	 * @param $file
+	 * @param $missedKey
+	 *
+	 * @return mixed
+	 */
+	protected function getValue($file, $missedKey)
+	{
+		$src = $file == $this->master ? $this->slave : $this->master;
+
+		$value = $this->values[$src][$missedKey];
+
+		if (strpos($value, ' ') !== false && strpos($value, '"') === false) {
+			$value = '"' . $value . '"';
+		}
+
+		return $value;
 	}
 }
