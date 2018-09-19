@@ -1,5 +1,5 @@
 {
-    "name": "justcoded/sync-env",
+    "name": "justcoded/dotenv-sync",
     "license": "MIT",
     "autoload": {
         "psr-4": {

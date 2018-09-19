@@ -12,27 +12,14 @@ or add it to your `composer.json` and run `composer update`
 
 # Usage
 
-## Git hooks
-
-Add this line to your pre-commit git hooks (`.git/hooks/pre-commit`) to prevent committing 
-if `.env` has params missed in `.env.example`
+Add the next lines to your pre-commit git hooks (`.git/hooks/pre-commit`) to prevent committing 
+if `.env` has params missed in `.env.example` and vice versa
 
 ```
-php -r "require('vendor/autoload.php'); \JustCoded\SyncEnv\EnvChecker::check();"
+exec vendor/bin/diff {envFileName} {envExampleFileName}
 ```
 
-To compare `.env.example` with `.env` (vice versa) add the next line:
-
+To add missed variables to your `.env` and `.env.example` files run the next command
 ```
-php -r "require('vendor/autoload.php'); \JustCoded\SyncEnv\EnvChecker::checkReverse();"
-```
-
-## Composer hooks
-
-You can run checks in your `composer.json` scripts section by adding the next lines:
-```
-"JustCoded\\SyncEnv\\EnvChecker::check",
-```
-```
-"JustCoded\\SyncEnv\\EnvChecker::checkReverse",
+exec vendor/bin/sync {envFileName} {envExampleFileName}
 ```
