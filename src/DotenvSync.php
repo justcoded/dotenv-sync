@@ -129,7 +129,11 @@ class DotenvSync extends DotenvDiff
 	{
 		parent::prepareOutput($file, $missedKeys);
 
-		if (!empty($missedKeys) && empty($this->missedValues[$file])) {
+		if (empty($missedKeys)) {
+			return;
+		}
+
+		if (empty($this->missedValues[$file])) {
 			$this->output .= "All the missed variables were added to {$file} file" . PHP_EOL;
 
 			return;
