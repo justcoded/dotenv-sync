@@ -12,6 +12,9 @@ switch(count($argv))
 	case 0 || 1:
 		$dotenvSync = new DotenvSync();
 		break;
+	case 2:
+		$dotenvSync = new DotenvSync($argv[0], $argv[1]);
+		break;
 	case 3:
 		$dotenvSync = new DotenvSync($argv[1], $argv[2]);
 		break;

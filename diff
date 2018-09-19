@@ -9,15 +9,15 @@ $argv = $_SERVER['argv'];
 
 switch(count($argv))
 {
-	case 0 || 1:
-		$dotenvSync = new DotenvDiff();
+	case 1:
+		$dotenvDiff = new DotenvDiff();
 		break;
 	case 3:
-		$dotenvSync = new DotenvDiff($argv[1], $argv[2]);
+		$dotenvDiff = new DotenvDiff($argv[1], $argv[2]);
 		break;
 }
 
 echo $dotenvDiff->diff()->output();
 
-exit($dotenvSync->isSuccess() ? 0 : 1);
+exit($dotenvDiff->isSuccess() ? 0 : 1);
 
