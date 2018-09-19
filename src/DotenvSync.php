@@ -154,7 +154,7 @@ class DotenvSync
 	protected function prepareOutput($file, $missedKeys)
 	{
 		if (empty($missedKeys)) {
-			return PHP_EOL . "You file {$file} has no missed variables" . PHP_EOL;
+			return "You file {$file} has no missed variables" . PHP_EOL;
 		}
 
 		$this->isSuccess &= false;
