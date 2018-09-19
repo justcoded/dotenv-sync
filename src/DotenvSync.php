@@ -35,6 +35,12 @@ class DotenvSync extends DotenvDiff
 	{
 		$this->diff();
 
+		if ($this->isSuccess) {
+			return $this;
+		}
+
+		$this->isSuccess = true;
+
 		if (! empty($this->diffKeys[$this->master])) {
 			$this->append($this->master, true);
 		}

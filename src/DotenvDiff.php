@@ -87,6 +87,10 @@ class DotenvDiff
 		$this->diffKeys[$this->slave] = array_diff($this->keys[$this->master], $this->keys[$this->slave]);
 		$this->diffKeys[$this->master] = array_diff($this->keys[$this->slave], $this->keys[$this->master]);
 
+		if (! empty($this->diffKeys[$this->slave]) || ! empty($this->diffKeys[$this->master])) {
+			$this->isSuccess &= false;
+		}
+
 		return $this;
 	}
 
