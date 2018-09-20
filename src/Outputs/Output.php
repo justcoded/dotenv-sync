@@ -43,6 +43,7 @@ abstract class Output
 		$this->action = $action;
 	}
 
+
 	/**
 	 * Get Output
 	 *
@@ -50,7 +51,7 @@ abstract class Output
 	 */
 	public function getOutput()
 	{
-		if (!$this->output) {
+		if (! $this->output) {
 			$this->prepareOutput();
 		}
 
@@ -73,8 +74,8 @@ abstract class Output
 	 */
 	public function getExitCode()
 	{
-		if (!$this->exitCode) {
-			$this->exitCode = (int) !$this->action->getResult();
+		if (! $this->exitCode) {
+			$this->exitCode = (int)! $this->action->getResult();
 		}
 
 		return $this->exitCode;

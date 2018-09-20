@@ -161,5 +161,4 @@ abstract class DotenvAction
 	{
 		return $file == $this->slave ? $this->master : $this->slave;
 	}
-
 }
