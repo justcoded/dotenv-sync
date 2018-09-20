@@ -4,6 +4,11 @@ namespace JustCoded\DotenvSync\Outputs;
 
 use JustCoded\DotenvSync\Actions\DotenvAction;
 
+/**
+ * Class Output
+ *
+ * @package JustCoded\DotenvSync\Outputs
+ */
 abstract class Output
 {
 	/**

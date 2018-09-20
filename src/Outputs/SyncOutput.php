@@ -4,16 +4,13 @@ namespace JustCoded\DotenvSync\Outputs;
 
 use JustCoded\DotenvSync\Actions\DotenvSync;
 
+/**
+ * Class SyncOutput
+ *
+ * @package JustCoded\DotenvSync\Outputs
+ */
 class SyncOutput extends Output
 {
-	/**
-	 * Missed Values
-	 *
-	 * @var array
-	 */
-	protected $missedValues = [];
-
-
 	/**
 	 * SyncOutput constructor.
 	 *
@@ -22,8 +19,6 @@ class SyncOutput extends Output
 	public function __construct(DotenvSync $action)
 	{
 		parent::__construct($action);
-
-		$this->missedValues = $this->action->getMissedValues();
 	}
 
 
@@ -36,17 +31,22 @@ class SyncOutput extends Output
 	{
 		if ($this->action->getResult()) {
 			$this->output .= "Your file has been synced" . PHP_EOL;
+
+			return ;
 		}
 
-		foreach ($this->missedValues as $file => $value) {
-			if (empty($this->missedValues[$file])) {
+
+		$missedValues = $this->action->getMissedValues();
+
+		foreach ($missedValues as $file => $value) {
+			if (empty($missedValues[$file])) {
 				$this->output .= "All the missed variables were added to {$file} file" . PHP_EOL;
 
 				return;
 			}
 
 			$message = "The following variables were not added to your {$file} file: " . PHP_EOL;
-			foreach ($this->missedValues[$file] as $missedValue) {
+			foreach ($missedValues[$file] as $missedValue) {
 				$message .= ' - ' . $missedValue . PHP_EOL;
 			}
 

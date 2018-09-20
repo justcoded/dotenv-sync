@@ -12,14 +12,6 @@ use JustCoded\DotenvSync\Actions\DotenvDiff;
 class DiffOutput extends Output
 {
 	/**
-	 * Diff
-	 *
-	 * @var array
-	 */
-	protected $diff = [];
-
-
-	/**
 	 * DiffOutput constructor.
 	 *
 	 * @param DotenvDiff $action
@@ -27,8 +19,6 @@ class DiffOutput extends Output
 	public function __construct(DotenvDiff $action)
 	{
 		parent::__construct($action);
-
-		$this->diff = $this->action->getDiff();
 	}
 
 
@@ -45,7 +35,9 @@ class DiffOutput extends Output
 			return;
 		}
 
-		foreach ($this->diff as $file => $missedKeys) {
+		$diff = $this->action->getDiff();
+
+		foreach ($diff as $file => $missedKeys) {
 			if (empty($missedKeys)) {
 				$this->output .= "You file {$file} is already in sync with" . PHP_EOL;
 
