@@ -32,9 +32,8 @@ class SyncOutput extends Output
 		if ($this->action->getResult()) {
 			$this->output .= "Your file has been synced" . PHP_EOL;
 
-			return ;
+			return;
 		}
-
 
 		$missedValues = $this->action->getMissedValues();
 
@@ -42,7 +41,7 @@ class SyncOutput extends Output
 			if (empty($missedValues[$file])) {
 				$this->output .= "All the missed variables were added to {$file} file" . PHP_EOL;
 
-				return;
+				continue;
 			}
 
 			$message = "The following variables were not added to your {$file} file: " . PHP_EOL;
