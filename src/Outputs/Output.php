@@ -32,7 +32,6 @@ abstract class Output
 	 */
 	protected $exitCode;
 
-
 	/**
 	 * Output constructor.
 	 *
@@ -42,7 +41,6 @@ abstract class Output
 	{
 		$this->action = $action;
 	}
-
 
 	/**
 	 * Get Output
@@ -58,14 +56,12 @@ abstract class Output
 		return $this->output;
 	}
 
-
 	/**
 	 * Prepare Output
 	 *
 	 * @return mixed
 	 */
 	protected abstract function prepareOutput();
-
 
 	/**
 	 * Get Exit Code

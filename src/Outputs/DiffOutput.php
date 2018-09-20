@@ -21,7 +21,6 @@ class DiffOutput extends Output
 		parent::__construct($action);
 	}
 
-
 	/**
 	 * Prepare Output
 	 *
@@ -30,7 +29,7 @@ class DiffOutput extends Output
 	protected function prepareOutput()
 	{
 		if ($this->action->getResult()) {
-			$this->output = "Your files have no differences";
+			$this->output = "Your files have no differences" . PHP_EOL;
 
 			return;
 		}
@@ -46,7 +45,7 @@ class DiffOutput extends Output
 
 			$message = "The following variables are not present in your {$file} file: " . PHP_EOL;
 			foreach ($missedKeys as $diffKey) {
-				$value = $this->action->getValue($this->action->getOppositeFile($file),$diffKey);
+				$value = $this->action->getValue($this->action->getOppositeFile($file), $diffKey);
 				$message .= " - {$diffKey}={$value}" . PHP_EOL;
 			}
 

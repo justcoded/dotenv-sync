@@ -53,7 +53,6 @@ abstract class DotenvAction
 	 */
 	protected $result = true;
 
-
 	/**
 	 * DotenvSync constructor.
 	 *
@@ -66,14 +65,12 @@ abstract class DotenvAction
 		$this->slave = $envExample;
 	}
 
-
 	/**
 	 * Execute
 	 *
 	 * @return mixed
 	 */
 	public abstract function execute();
-
 
 	/**
 	 * Parse File
@@ -90,7 +87,6 @@ abstract class DotenvAction
 		}
 	}
 
-
 	/**
 	 * Ensure Files Exist
 	 *
@@ -105,7 +101,6 @@ abstract class DotenvAction
 		}
 	}
 
-
 	/**
 	 * Get Root Path
 	 *
@@ -115,11 +110,14 @@ abstract class DotenvAction
 	 */
 	protected function getRootPath($path = null)
 	{
-		$rootPath = __DIR__ . '/../../../../../';
+		if (false !== strpos(__DIR__, 'vendor')) {
+			$rootPath = explode('/vendor/', __DIR__, 2)[0];
+		} else {
+			$rootPath = explode('/src/', __DIR__, 2)[0];
+		}
 
-		return $path ? realpath($rootPath . $path) : realpath($rootPath);
+		return $path ? realpath($rootPath . '/' . $path) : realpath($rootPath);
 	}
-
 
 	/**
 	 * Get Value
@@ -138,7 +136,6 @@ abstract class DotenvAction
 		return ! empty($this->values[$file][$key]) ? $this->values[$file][$key] : null;
 	}
 
-
 	/**
 	 * Exit Code
 	 *
@@ -148,7 +145,6 @@ abstract class DotenvAction
 	{
 		return $this->result;
 	}
-
 
 	/**
 	 * Get Opposite File

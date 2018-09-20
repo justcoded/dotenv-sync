@@ -24,7 +24,6 @@ class Factory
 		return new $className($env, $envExample);
 	}
 
-
 	/**
 	 * Get Map
 	 *

@@ -23,7 +23,6 @@ class ConsoleDotenv
 	 */
 	protected $output;
 
-
 	/**
 	 * ConsoleDotenv constructor.
 	 *
@@ -37,7 +36,6 @@ class ConsoleDotenv
 		$this->output = OutputFactory::make($this->action);
 	}
 
-
 	/**
 	 * Execute
 	 *
@@ -50,7 +48,6 @@ class ConsoleDotenv
 		return $this;
 	}
 
-
 	/**
 	 * Output
 	 *
@@ -60,7 +57,6 @@ class ConsoleDotenv
 	{
 		return $this->output->getOutput();
 	}
-
 
 	/**
 	 * Get Exit Code

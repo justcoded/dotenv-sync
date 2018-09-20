@@ -25,7 +25,6 @@ class DotenvSync extends DotenvAction
 	 */
 	protected $missedValues = [];
 
-
 	/**
 	 * DotenvSync constructor.
 	 *
@@ -38,7 +37,6 @@ class DotenvSync extends DotenvAction
 
 		$this->diffAction = new DotenvDiff($env, $envExample);
 	}
-
 
 	/**
 	 * Perform Check
@@ -63,7 +61,6 @@ class DotenvSync extends DotenvAction
 
 		return $this;
 	}
-
 
 	/**
 	 * Append
@@ -98,7 +95,6 @@ class DotenvSync extends DotenvAction
 		}
 	}
 
-
 	/**
 	 * Get Value
 	 *
@@ -118,7 +114,6 @@ class DotenvSync extends DotenvAction
 
 		return $value;
 	}
-
 
 	/**
 	 * Get Missed Values

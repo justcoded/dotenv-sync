@@ -21,7 +21,6 @@ class SyncOutput extends Output
 		parent::__construct($action);
 	}
 
-
 	/**
 	 * Prepare Output
 	 *

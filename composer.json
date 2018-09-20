@@ -1,17 +1,42 @@
 {
-    "name": "justcoded/dotenv-sync",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "JustCoded\\DotenvSync\\": "src"
-        }
+  "name": "justcoded/dotenv-sync",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "php",
+    "dotenv",
+    ".env",
+    "phpdotenv",
+    "dotenv sync",
+    "dotenv diff"
+  ],
+  "authors": [
+    {
+      "name": "Olesya Berest",
+      "email": "oberest@justcoded.co",
+      "homepage": "https://github.com/justcoded"
     },
-    "require": {
-        "php": ">=5.4",
-        "vlucas/phpdotenv": "^2.5"
-    },
-    "bin": [
-        "bin/dotenv-diff",
-        "bin/dotenv-sync"
-    ]
+    {
+      "name": "Alex Prokopenko",
+      "email": "aprokopenko@justcoded.com",
+      "homepage": "https://github.com/justcoded"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/justcoded/dotenv-sync/issues",
+    "source": "https://github.com/justcoded/dotenv-sync"
+  },
+  "autoload": {
+    "psr-4": {
+      "JustCoded\\DotenvSync\\": "src"
+    }
+  },
+  "require": {
+    "php": ">=5.4",
+    "vlucas/phpdotenv": "^2.5"
+  },
+  "bin": [
+    "bin/dotenv-diff",
+    "bin/dotenv-sync"
+  ]
 }
