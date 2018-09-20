@@ -33,8 +33,8 @@ class Factory
 	protected static function actions()
 	{
 		return [
-			DotenvAction::ACTION_DIFF => "\\Justcoded\\DotenvSync\\Actions\\DotenvDiff",
-			DotenvAction::ACTION_SYNC => "\\Justcoded\\DotenvSync\\Actions\\DotenvSync",
+			DotenvAction::ACTION_DIFF => "\\JustCoded\\DotenvSync\\Actions\\DotenvDiff",
+			DotenvAction::ACTION_SYNC => "\\JustCoded\\DotenvSync\\Actions\\DotenvSync",
 		];
 	}
 }

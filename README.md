@@ -16,10 +16,10 @@ Add the next line to your pre-commit git hooks (`.git/hooks/pre-commit`) to prev
 if `.env` has params missed in `.env.example` and vice versa. Ensure the file `vendor/bin/diff` is executable.
 
 ```
-exec vendor/bin/diff {envFileName} {envExampleFileName}
+exec vendor/bin/dotenv-diff {envFileName} {envExampleFileName}
 ```
 
 To add missed variables to your `.env` and `.env.example` files run the next command
 ```
-vendor/bin/sync {envFileName} {envExampleFileName}
+vendor/bin/dotenv-sync {envFileName} {envExampleFileName}
 ```
