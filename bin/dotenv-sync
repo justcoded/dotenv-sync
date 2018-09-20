@@ -1,0 +1,24 @@
+#!/usr/bin/php
+<?php
+
+require('vendor/autoload.php');
+
+use JustCoded\DotenvSync\ConsoleDotenv;
+use JustCoded\DotenvSync\Actions\DotenvAction;
+
+$argv = $_SERVER['argv'];
+
+switch(count($argv))
+{
+	case 1:
+		$dotenvSync = new ConsoleDotenv(DotenvAction::ACTION_SYNC);
+		break;
+	case 3:
+		$dotenvSync = new ConsoleDotenv(DotenvAction::ACTION_SYNC, $argv[1], $argv[2]);
+		break;
+}
+
+echo $dotenvSync->execute()->output();
+
+exit($dotenvSync->getExitCode());
+

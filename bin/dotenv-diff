@@ -1,0 +1,24 @@
+#!/usr/bin/php
+<?php
+
+require('vendor/autoload.php');
+
+use JustCoded\DotenvSync\ConsoleDotenv;
+use JustCoded\DotenvSync\Actions\DotenvAction;
+
+$argv = $_SERVER['argv'];
+
+switch(count($argv))
+{
+	case 1:
+		$dotenvDiff = new ConsoleDotenv(DotenvAction::ACTION_DIFF);
+		break;
+	case 3:
+		$dotenvDiff = new ConsoleDotenv(DotenvAction::ACTION_DIFF, $argv[1], $argv[2]);
+		break;
+}
+
+echo $dotenvDiff->execute()->output();
+
+exit($dotenvDiff->getExitCode());
+
