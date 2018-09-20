@@ -40,7 +40,7 @@ class DiffOutput extends Output
 			if (empty($missedKeys)) {
 				$this->output .= "You file {$file} is already in sync with" . PHP_EOL;
 
-				return;
+				continue;
 			}
 
 			$message = "The following variables are not present in your {$file} file: " . PHP_EOL;
