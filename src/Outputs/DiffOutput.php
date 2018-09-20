@@ -54,7 +54,8 @@ class DiffOutput extends Output
 
 			$message = "The following variables are not present in your {$file} file: " . PHP_EOL;
 			foreach ($missedKeys as $diffKey) {
-				$message .= " - {$diffKey}={$this->action->getValue($file,$diffKey)}" . PHP_EOL;
+				$value = $this->action->getValue($this->action->getOppositeFile($file),$diffKey);
+				$message .= " - {$diffKey}={$value}" . PHP_EOL;
 			}
 
 			$this->output .= $message;
