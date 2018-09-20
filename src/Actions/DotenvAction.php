@@ -131,6 +131,10 @@ abstract class DotenvAction
 	 */
 	public function getValue($file, $key)
 	{
+		if (empty($this->values[$file])) {
+			$this->parseDotenv($file);
+		}
+
 		return ! empty($this->values[$file][$key]) ? $this->values[$file][$key] : null;
 	}
 
