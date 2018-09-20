@@ -34,6 +34,7 @@ class ConsoleDotenv
 	public function __construct($action, $env = DotenvAction::ENV, $envExample = DotenvAction::ENV_EXAMPLE)
 	{
 		$this->action = ActionFactory::make($action, $env, $envExample);
+		$this->output = OutputFactory::make($this->action);
 	}
 
 
@@ -57,7 +58,7 @@ class ConsoleDotenv
 	 */
 	public function output()
 	{
-		return $this->getOutput()->getOutput();
+		return $this->output->getOutput();
 	}
 
 
@@ -68,21 +69,6 @@ class ConsoleDotenv
 	 */
 	public function getExitCode()
 	{
-		return $this->getOutput()->getExitCode();
-	}
-
-
-	/**
-	 * Get Output
-	 *
-	 * @return Outputs\DiffOutput|Output|Outputs\SyncOutput
-	 */
-	protected function getOutput()
-	{
-		if (! $this->output) {
-			$this->output = OutputFactory::make($this->action);
-		}
-
-		return $this->output;
+		return $this->output->getExitCode();
 	}
 }

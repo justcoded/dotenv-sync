@@ -23,7 +23,7 @@ class DotenvSync extends DotenvAction
 	 *
 	 * @var array
 	 */
-	protected $missedValues;
+	protected $missedValues = [];
 
 
 	/**
@@ -47,13 +47,11 @@ class DotenvSync extends DotenvAction
 	 */
 	public function execute()
 	{
-		$diff = $this->diffAction->execute()->getDiff();
-
-		if ($this->diffAction->getResult()) {
+		if ($this->diffAction->execute()->getResult()) {
 			return $this;
 		}
 
-		$this->result = true;
+		$diff = $this->diffAction->getDiff();
 
 		if (! empty($diff[$this->master])) {
 			$this->append($this->master, $diff[$this->master], true);
@@ -87,7 +85,7 @@ class DotenvSync extends DotenvAction
 
 		$this->missedValues[$file] = [];
 
-		foreach ($diff[$file] as $missedKey) {
+		foreach ($diff as $missedKey) {
 			$value = '';
 			if ($withValues) {
 				$value = $this->prepareValue($file, $missedKey);
