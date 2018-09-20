@@ -5,7 +5,7 @@ The package is intended for avoiding problems with .env and .env.example files c
 Start by requiring the package with composer:
 
 ```
-composer require justcoded/sync-env
+composer require justcoded/dotenv-sync
 ```
 
 or add it to your `composer.json` and run `composer update`
