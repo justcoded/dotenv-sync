@@ -19,6 +19,7 @@ Ensure the file `vendor/bin/dotenv-diff` is executable.
 ```
 exec vendor/bin/dotenv-diff {envFileName} {envExampleFileName}
 ```
+We also recommend to use this package to manage your git hooks inside composer.json: https://github.com/BrainMaestro/composer-git-hooks
 
 To make bin scripts executable just run:
 ```bash
